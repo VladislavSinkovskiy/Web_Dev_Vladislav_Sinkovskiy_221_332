@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 class="my-5 text-center">{{ post.title }}</h1>
+    <div class="my-3 text-muted">
+        {{ post.author }}, 
+        {{ post.date.strftime('%d.%m.%Y') }}
+    </div>
+
+    <div class="row mb-3">
+        <div class="text-justify d-flex">  
+            <div class="card mb-4">
+                <img class="card-img-left" src="{{ url_for('static', filename='images/' + post.image_id) }}" alt="Card image cap">
+                <div class="card-body">
+                    <p class="text-justify">
+                        {{ post.text }}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="mt-2">Оставьте комментарий</h2>
+        <form method="post" action="{{ url_for('submit_comment', post_index= index)  }}">  
+            <div class="form-group">
+                <label for="comment">Ваш комментарий:</label>
+                <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3 mb-2">Отправить</button>
+        </form>
+
+        <h3 class="my-4">Комментарии:</h3>
+        {% for comment in post.comments %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <p class="card-text text-muted">{{ comment.author }}</p>
+                </div>
+                <div class="card-text border-top pt-1">
+                    <p>{{ comment.text }}</p>
+                </div>
+                {% if comment.replies %}
+                    <div class="card-body">
+                        <h5>Ответы:</h5>
+                        {% for reply in comment.replies %}
+                            <div class="card mb-2">
+                                <div class="card-body">
+                                    <p class="card-text text-muted">{{ reply.author }}</p>
+                                </div>
+                                <div class="card-text card-body card-footer">
+                                    <p>{{ reply.text }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+    
+{% endblock %}
