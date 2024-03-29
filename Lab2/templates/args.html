@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+    <h1 class="mt-5">Аргументы:</h1>
+    <table class="table mt-3">
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Значение</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for arg_name, value in request.args.items() %}
+                <tr>
+                    <td>{{arg_name}}</td>
+                    <td>{{value}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+body {
+    font-size: 1.25rem;
+    height: 100%;
+}
+
+.avatar {
+    max-width: 100%;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0 auto 0 auto; 
+}
+
+.content {
+    flex: 1;
+}
