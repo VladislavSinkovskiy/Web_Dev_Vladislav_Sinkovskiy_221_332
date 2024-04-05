@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card mt-5">
+                <div class="card-header">
+                    <h3 class="text-center">Введите номер телефона</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="form-group mt-3">
+                            {% if number %}
+                            <h2>Номер введён правильно!</h2>
+                            {% endif %}
+                            <label for="phone" class="mb-3">Номер телефона:</label>
+                            <input type="text" name="phone" id="phone" class="form-control {% if error %}is-invalid{% endif %}"
+                                placeholder="Введите номер телефона" value="{{ request.form.phone }}">
+                            {% if error %}
+                            <div class="invalid-feedback">{{ error }}</div>
+                            {% endif %}
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">Проверить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
