@@ -1,0 +1,45 @@
+{% extends 'visits/base.html' %}
+{% from 'pagination.html' import pagination %}
+
+{% block tab_content %}
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				№
+			</th>
+			<th>
+				Путь
+			</th>
+			<th>
+				Логин
+			</th>
+			<th>
+				Дата
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for log in logs %}
+		<tr>
+			<td>
+				{{ loop.index + ((current_page - 1) * PER_PAGE) }}
+			</td>
+			<td>
+				{{log.path}}
+			</td>
+			<td>
+				{{log.login or 'Анонимный пользователь'}}
+			</td>
+			<td>
+				{{ log.created_at }}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{{ pagination(current_page, last_page, request.endpoint) }}
+{% if current_user.is_authenticated and current_user.can('show_user_visits', user) %}
+<a class="btn btn-primary" href="{{ url_for('visits.logging', download_csv=True) }}">Экспорт в CSV</a>
+{% endif %}
+{% endblock %}

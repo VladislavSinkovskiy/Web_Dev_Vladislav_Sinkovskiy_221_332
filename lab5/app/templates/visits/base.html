@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h4 class="mb-3">Статистика</h4>
+<ul class="nav nav-tabs">
+    {% if current_user.is_authenticated and current_user.can('show', user) %}
+    <li class="nav-item">
+        <a class="nav-link {% if request.endpoint == 'visits.logging' %}active{% endif %}" aria-current="page"
+            href="{{ url_for('visits.logging') }}">Журнал посещений</a>
+    </li>
+    {% endif %}
+    {% if current_user.is_authenticated and current_user.can('show_statistics', user) %}
+    <li class="nav-item">
+        <a class="nav-link {% if request.endpoint == 'visits.pages_stat' %}active{% endif %}" aria-current="page"
+            href="{{ url_for('visits.pages_stat') }}">Статистика по страницам</a>
+    </li>
+    {% endif %}
+    {% if current_user.is_authenticated and current_user.can('show_statistics', user) %}
+    <li class="nav-item">
+        <a class="nav-link {% if request.endpoint == 'visits.users_stat' %}active{% endif %}" aria-current="page"
+            href="{{ url_for('visits.users_stat') }}">Статистика по пользователям</a>
+    </li>
+    {% endif %}
+</ul>
+{% block tab_content %}
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,72 @@
+{% macro user_form(user, action, roles_list, current_user, input_class, div_class, message, password_input_class,
+password_div_class,
+password_message) %}
+<!-- макрос позволяет не дублировать код -->
+<form method="POST" class="mb-3" action="{{ action }}">
+	{% if request.endpoint == 'users_new' or request.endpoint == 'create_user' %}
+	<div class="row mb-3">
+		<label for="login" class="col-sm-2 col-form-label">Логин</label>
+		<div class="col-sm-10">
+			<input type="text" name="login" class="form-control {{ input_class }}" id="login"
+				value="{{ user.login or '' }}" required>
+			{% if div_class != None %}
+			<div class="{{ div_class }}">
+				{{ message }}
+			</div>
+			{% endif %}
+		</div>
+	</div>
+	<div class="row mb-3">
+		<label for="password" class="col-sm-2 col-form-label">Пароль</label>
+		<div class="col-sm-10">
+			<input type="password" name="password" class="form-control {{ password_input_class }}" id="password"
+				value="{{ user.password or '' }}" required>
+			{% if password_div_class != None %}
+			<div class="{{ password_div_class }}">
+				{{ password_message }}
+			</div>
+			{% endif %}
+		</div>
+	</div>
+	{% endif %}
+	<div class="row mb-3">
+		<label for="last_name" class="col-sm-2 col-form-label">Фамилия</label>
+		<div class="col-sm-10">
+			<input type="text" name="last_name" class="form-control" id="last_name" value="{{ user.last_name or '' }}"
+				required>
+		</div>
+	</div>
+	<div class="row mb-3">
+		<label for="first_name" class="col-sm-2 col-form-label">Имя</label>
+		<div class="col-sm-10">
+			<input type="text" name="first_name" class="form-control" id="first_name"
+				value="{{ user.first_name or '' }}" required>
+		</div>
+	</div>
+	<div class="row mb-3">
+		<label for="middle_name" class="col-sm-2 col-form-label">Отчество</label>
+		<div class="col-sm-10">
+			<input type="text" name="middle_name" class="form-control" id="middle_name"
+				value="{{ user.middle_name or '' }}">
+		</div>
+	</div>
+	{% if current_user.can('change_role') %}
+	<!-- Выбор роли -->
+	<div class="row mb-3">
+		<label for="role_id" class="col-sm-2 col-form-label">Роль</label>
+		<div class="col-sm-10">
+			<select name="role_id" class="form-control" id="role_id">
+				{% for role in roles_list %}
+				<!-- role.id - значение, которое будет отправляться на сервер -->
+				<!-- приводим role.id к str, чтобы избежать багов -->
+				<option {% if user.role_id | string==role.id | string %} selected {% endif %} value="{{ role.id }}">{{
+					role.name }}</option>
+				{% endfor %}
+			</select>
+		</div>
+	</div>
+	{% endif %}
+	<button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+
+{% endmacro %}
